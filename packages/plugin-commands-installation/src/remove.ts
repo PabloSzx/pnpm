@@ -144,6 +144,7 @@ export async function handler (
   | 'saveProd'
   | 'selectedProjectsGraph'
   | 'workspaceDir'
+  | 'workspaceConcurrency'
   > & {
     recursive?: boolean
   },

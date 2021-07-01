@@ -52,6 +52,7 @@ export async function handler (
   | 'registries'
   | 'pnpmfile'
   | 'workspaceDir'
+  | 'workspaceConcurrency'
   > & {
     recursive?: boolean
   },

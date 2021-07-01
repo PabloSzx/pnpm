@@ -26,9 +26,10 @@ type RecursiveRebuildOpts = CreateStoreControllerOptions & Pick<Config,
 | 'rawLocalConfig'
 | 'registries'
 | 'sharedWorkspaceLockfile'
+| 'workspaceConcurrency'
 > & {
   pending?: boolean
-} & Partial<Pick<Config, 'bail' | 'sort' | 'workspaceConcurrency'>>
+} & Partial<Pick<Config, 'bail' | 'sort'>>
 
 export default async function recursive (
   allProjects: Project[],
@@ -112,7 +113,7 @@ export default async function recursive (
     )
     return
   }
-  const limitRebuild = pLimit(opts.workspaceConcurrency ?? 4)
+  const limitRebuild = pLimit(opts.workspaceConcurrency)
   for (const chunk of chunks) {
     await Promise.all(chunk.map(async (rootDir: string) =>
       limitRebuild(async () => {

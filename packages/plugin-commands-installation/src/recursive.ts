@@ -63,13 +63,14 @@ type RecursiveOptions = CreateStoreControllerOptions & Pick<Config,
 | 'saveWorkspaceProtocol'
 | 'sharedWorkspaceLockfile'
 | 'tag'
+| 'workspaceConcurrency'
 > & {
   include?: IncludedDependencies
   includeDirect?: IncludedDependencies
   latest?: boolean
   pending?: boolean
   workspace?: boolean
-} & Partial<Pick<Config, 'sort' | 'workspaceConcurrency'>>
+} & Partial<Pick<Config, 'sort'>>
 
 export default async function recursive (
   allProjects: Project[],
@@ -263,7 +264,7 @@ export default async function recursive (
     ? chunks[0]
     : Object.keys(opts.selectedProjectsGraph).sort()
 
-  const limitInstallation = pLimit(opts.workspaceConcurrency ?? 4)
+  const limitInstallation = pLimit(opts.workspaceConcurrency)
   await Promise.all(pkgPaths.map(async (rootDir: string) =>
     limitInstallation(async () => {
       const hooks = opts.ignorePnpmfile ? {} : requireHooks(rootDir, opts)

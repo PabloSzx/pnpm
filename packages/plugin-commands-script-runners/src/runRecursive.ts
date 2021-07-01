@@ -17,8 +17,8 @@ export type RecursiveRunOpts = Pick<Config,
 | 'rawConfig'
 | 'scriptShell'
 | 'shellEmulator'
-> & Required<Pick<Config, 'allProjects' | 'selectedProjectsGraph' | 'workspaceDir'>> &
-Partial<Pick<Config, 'extraBinPaths' | 'bail' | 'reverse' | 'sort' | 'workspaceConcurrency'>> &
+> & Required<Pick<Config, 'allProjects' | 'selectedProjectsGraph' | 'workspaceDir' | 'workspaceConcurrency'>> &
+Partial<Pick<Config, 'extraBinPaths' | 'bail' | 'reverse' | 'sort'>> &
 {
   ifPresent?: boolean
 }
@@ -43,7 +43,7 @@ export default async (
     passes: 0,
   } as RecursiveSummary
 
-  const limitRun = pLimit(opts.workspaceConcurrency ?? 4)
+  const limitRun = pLimit(opts.workspaceConcurrency)
   const stdio = (
     opts.workspaceConcurrency === 1 ||
     packageChunks.length === 1 && packageChunks[0].length === 1

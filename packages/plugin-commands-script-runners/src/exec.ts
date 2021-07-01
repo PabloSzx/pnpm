@@ -60,12 +60,11 @@ For options that may be used with `-r`, see "pnpm help recursive"',
 }
 
 export async function handler (
-  opts: Required<Pick<Config, 'selectedProjectsGraph'>> & {
+  opts: Required<Pick<Config, 'selectedProjectsGraph' | 'workspaceConcurrency'>> & {
     bail?: boolean
     unsafePerm?: boolean
     rawConfig: object
     sort?: boolean
-    workspaceConcurrency?: number
   } & Pick<Config, 'extraBinPaths' | 'lockfileDir' | 'dir' | 'recursive' | 'workspaceDir'>,
   params: string[]
 ) {
@@ -73,7 +72,7 @@ export async function handler (
   if (params[0] === '--') {
     params.shift()
   }
-  const limitRun = pLimit(opts.workspaceConcurrency ?? 4)
+  const limitRun = pLimit(opts.workspaceConcurrency)
 
   const result = {
     fails: [],

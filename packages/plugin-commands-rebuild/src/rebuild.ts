@@ -77,6 +77,7 @@ export async function handler (
   | 'sideEffectsCacheReadonly'
   | 'shellEmulator'
   | 'workspaceDir'
+  | 'workspaceConcurrency'
   > &
   CreateStoreControllerOptions &
   {

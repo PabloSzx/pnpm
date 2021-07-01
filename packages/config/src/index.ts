@@ -440,6 +440,16 @@ export default async (
     }
   }
 
+  const workspaceConcurrency = pnpmConfig.workspaceConcurrency;
+
+  if (typeof workspaceConcurrency === "number") {
+    if (workspaceConcurrency <= 0) {
+      pnpmConfig.workspaceConcurrency = Math.max(1, os.cpus().length - Math.abs(workspaceConcurrency))
+    }
+  } else {
+    pnpmConfig.workspaceConcurrency = 4;
+  }
+
   return { config: pnpmConfig, warnings }
 }
 
